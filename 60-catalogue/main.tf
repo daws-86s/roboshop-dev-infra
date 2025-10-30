@@ -1,5 +1,4 @@
 # Create EC2 instance
-
 resource "aws_instance" "catalogue" {
     ami = local.ami_id
     instance_type = "t3.micro"
@@ -53,4 +52,10 @@ resource "aws_ami_from_instance" "catalogue" {
   name               = "${local.common_name_suffix}-catalogue-ami"
   source_instance_id = aws_instance.catalogue.id
   depends_on = [aws_ec2_instance_state.catalogue]
+  tags = merge (
+        local.common_tags,
+        {
+            Name = "${local.common_name_suffix}-catalogue-ami" # roboshop-dev-mongodb
+        }
+  )
 }
