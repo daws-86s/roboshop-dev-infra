@@ -88,6 +88,9 @@ resource "aws_launch_template" "catalogue" {
 
   vpc_security_group_ids = [local.catalogue_sg_id]
 
+  # when we run terraform apply again, a new version will be created with new AMI ID
+  #update_default_version = true
+
   # tags attached to the instance
   tag_specifications {
     resource_type = "instance"
@@ -158,7 +161,7 @@ resource "aws_autoscaling_group" "catalogue" {
 }
 
 
-resource "aws_autoscaling_policy" "example" {
+resource "aws_autoscaling_policy" "catalogue" {
   autoscaling_group_name = aws_autoscaling_group.catalogue.name
   name                   = "${local.common_name_suffix}-catalogue"
   policy_type            = "TargetTrackingScaling"
