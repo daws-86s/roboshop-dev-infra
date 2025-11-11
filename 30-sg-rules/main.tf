@@ -226,5 +226,47 @@ resource "aws_security_group_rule" "frontend_frontend_alb" {
   to_port           = 80
 }
 
+resource "aws_security_group_rule" "user_bastion" {
+  type              = "ingress"
+  security_group_id = local.user_sg_id
+  source_security_group_id = local.bastion_sg_id
+  from_port         = 22
+  protocol          = "tcp"
+  to_port           = 22
+}
 
+resource "aws_security_group_rule" "cart_bastion" {
+  type              = "ingress"
+  security_group_id = local.cart_sg_id
+  source_security_group_id = local.bastion_sg_id
+  from_port         = 22
+  protocol          = "tcp"
+  to_port           = 22
+}
 
+resource "aws_security_group_rule" "shipping_bastion" {
+  type              = "ingress"
+  security_group_id = local.shipping_sg_id
+  source_security_group_id = local.bastion_sg_id
+  from_port         = 22
+  protocol          = "tcp"
+  to_port           = 22
+}
+
+resource "aws_security_group_rule" "payment_bastion" {
+  type              = "ingress"
+  security_group_id = local.payment_sg_id
+  source_security_group_id = local.bastion_sg_id
+  from_port         = 22
+  protocol          = "tcp"
+  to_port           = 22
+}
+
+resource "aws_security_group_rule" "frontend_bastion" {
+  type              = "ingress"
+  security_group_id = local.frontend_sg_id
+  source_security_group_id = local.bastion_sg_id
+  from_port         = 22
+  protocol          = "tcp"
+  to_port           = 22
+}
