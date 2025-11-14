@@ -291,6 +291,70 @@ resource "aws_security_group_rule" "bastion_laptop" {
   to_port           = 22
 }
 
+resource "aws_security_group_rule" "open_vpn_public" {
+  type              = "ingress"
+  security_group_id = local.open_vpn_sg_id
+  cidr_blocks = ["0.0.0.0/0"]
+  from_port         = 22
+  protocol          = "tcp"
+  to_port           = 22
+}
+
+resource "aws_security_group_rule" "open_vpn_943" {
+  type              = "ingress"
+  security_group_id = local.open_vpn_sg_id
+  cidr_blocks = ["0.0.0.0/0"]
+  from_port         = 943
+  protocol          = "tcp"
+  to_port           = 943
+}
+
+resource "aws_security_group_rule" "open_vpn_443" {
+  type              = "ingress"
+  security_group_id = local.open_vpn_sg_id
+  cidr_blocks = ["0.0.0.0/0"]
+  from_port         = 443
+  protocol          = "tcp"
+  to_port           = 443
+}
+
+resource "aws_security_group_rule" "open_vpn_1194" {
+  type              = "ingress"
+  security_group_id = local.open_vpn_sg_id
+  cidr_blocks = ["0.0.0.0/0"]
+  from_port         = 1194
+  protocol          = "tcp"
+  to_port           = 1194
+}
+
+resource "aws_security_group_rule" "catalogue_vpn" {
+  type              = "ingress"
+  security_group_id = local.catalogue_sg_id
+  source_security_group_id = local.open_vpn_sg_id
+  from_port         = 22
+  protocol          = "tcp"
+  to_port           = 22
+}
+
+resource "aws_security_group_rule" "catalogue_vpn_8080" {
+  type              = "ingress"
+  security_group_id = local.catalogue_sg_id
+  source_security_group_id = local.open_vpn_sg_id
+  from_port         = 8080
+  protocol          = "tcp"
+  to_port           = 8080
+}
+
+resource "aws_security_group_rule" "components_vpn" {
+  for_each = local.vpn_ingress_rules
+  type              = "ingress"
+  security_group_id = each.value.sg_id
+  source_security_group_id = local.open_vpn_sg_id
+  from_port         = each.value.port
+  protocol          = "tcp"
+  to_port           = each.value.port
+}
+
 #This is the mistake we did, cart can't access components directly from one component to another component. they should be communicated through backend ALB
 /* resource "aws_security_group_rule" "cart_shipping" {
   type              = "ingress"
