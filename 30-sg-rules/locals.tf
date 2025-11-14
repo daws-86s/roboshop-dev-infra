@@ -43,6 +43,26 @@ locals {
             sg_id = local.catalogue_sg_id
             port = 8080
         }
+        user = {
+            sg_id = local.user_sg_id
+            port = 22
+        }
+        cart = {
+            sg_id = local.cart_sg_id
+            port = 22
+        }
+        shipping = {
+            sg_id = local.shipping_sg_id
+            port = 22
+        }
+        payment = {
+            sg_id = local.payment_sg_id
+            port = 22
+        }
+        frontend = {
+            sg_id = local.frontend_sg_id
+            port = 22
+        }
         backend_alb = {
             sg_id = local.backend_alb_sg_id
             port = 80
